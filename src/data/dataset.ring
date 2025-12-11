@@ -5,8 +5,8 @@
 
 class Dataset
     # Base class for datasets
-    func len 
-        raise("Method len() not implemented")
+    func length 
+        raise("Method length() not implemented")
     func getData itemIndex
         raise("Method getData() not implemented")
 
@@ -20,7 +20,7 @@ class TensorDataset from Dataset
         oTargets = oTargetTensor
         nSamples = oInputs.nRows
         
-    func len
+    func length
         return nSamples
         
     func getData nIdx
@@ -45,42 +45,40 @@ class DataLoader
     func init oData, nBatch
         oDataset   = oData
         nBatchSize = nBatch
-        nTotal     = oDataset.len()
-        # Calculate number of batches (Ceiling)
+        nTotal     = oDataset.length()
         nBatches   = ceil(nTotal / nBatchSize)
 
     func getBatch nBatchIndex
-        # nBatchIndex starts from 1
+        # Calculate Start and End indices
         nStart = (nBatchIndex - 1) * nBatchSize + 1
         nEnd   = nStart + nBatchSize - 1
         
-        if nEnd > oDataset.len()
-            nEnd = oDataset.len()
+        if nEnd > oDataset.length()
+            nEnd = oDataset.length()
         ok
         
         nCurrentBatchSize = nEnd - nStart + 1
+        if nCurrentBatchSize <= 0 return [] ok
         
-        # Create Batch Tensors
-        # We assume dataset returns [InputTensor, TargetTensor]
-        # But for performance, we slice the original big tensor data directly
+        # Peek first item to know dimensions
+        firstItem = oDataset.getData(1)
+        nFeats  = firstItem[1].nCols
+        nLabels = firstItem[2].nCols
         
-        # 1. Prepare Input Batch Tensor
-        oFirstItem = oDataset.getData(1) # Just to check dims
-        nFeats     = oFirstItem[1].nCols
-        nLabels    = oFirstItem[2].nCols
-        
-        oBatchInputs = new Tensor(nCurrentBatchSize, nFeats)
+        # Allocate Batch Tensors ONCE
+        oBatchInputs  = new Tensor(nCurrentBatchSize, nFeats)
         oBatchTargets = new Tensor(nCurrentBatchSize, nLabels)
         
-        # Copy data
-        nCurrentRow = 1
+        # Fill Batch
+        rowCounter = 1
         for i = nStart to nEnd
-            # Direct access to dataset internal tensors is faster if we cast it
-            # But sticking to generic API:
-            item = oDataset.getData(i)
-            oBatchInputs.aData[nCurrentRow]  = item[1].aData[1]
-            oBatchTargets.aData[nCurrentRow] = item[2].aData[1]
-            nCurrentRow++
+            item = oDataset.getData(i) # Lazy load row i
+            
+            # Copy data from small tensor to batch tensor
+            oBatchInputs.aData[rowCounter]  = item[1].aData[1]
+            oBatchTargets.aData[rowCounter] = item[2].aData[1]
+            
+            rowCounter++
         next
         
         return [oBatchInputs, oBatchTargets]

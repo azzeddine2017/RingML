@@ -154,3 +154,7 @@ class Tensor
             see "Data is too large to display." + nl
         ok
         see nl
+
+    func print_shape
+        see "Tensor Shape: (" + nRows + ", " + nCols + ")" + nl
+        see nl

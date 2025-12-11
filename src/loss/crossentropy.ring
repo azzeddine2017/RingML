@@ -16,10 +16,10 @@ class CrossEntropyLoss
             for c = 1 to nClasses
                 pred = oPred.aData[r][c]
                 target = oTarget.aData[r][c]
-                
+                npred = 0.000000000000001
                 # Clip prediction to avoid log(0) error
-                if pred < 0.000000000000001 pred = 0.000000000000001 ok
-                if pred > (1.0 - 0.000000000000001) pred = 1.0 - 0.000000000000001 ok
+                if pred < npred pred = npred ok
+                if pred > (1.0 - npred) pred = 1.0 - npred ok
                 
                 # Assuming One-Hot Encoded target
                 if target = 1
