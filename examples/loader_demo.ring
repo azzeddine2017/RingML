@@ -1,5 +1,5 @@
 load "../src/ringml.ring"
-
+decimals(8) 
 see "=== DataLoader Demo ===" + nl
 
 # 1. Create Dummy Data (10 Samples)

@@ -1,5 +1,5 @@
 load "../src/ringml.ring"
-decimals(3)
+decimals(8)
 
 see "=== RingML Save/Load Model Demo ===" + nl
 

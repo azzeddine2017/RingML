@@ -135,26 +135,10 @@ class Tensor
         return self
 
     func softmax
-        # Softmax = exp(x) / sum(exp(x))
-        # Implemented manually for stability
-        for r = 1 to nRows
-            rowSum = 0.0
-            for c = 1 to nCols
-                val = exp(aData[r][c])
-                aData[r][c] = val
-                rowSum += val
-            next
-            
-            for c = 1 to nCols
-                if rowSum != 0
-                    aData[r][c] /= rowSum
-                else
-                    aData[r][c] = 1.0 / nCols
-                ok
-            next
-        next
+        # FastPro Case 3306 (Now Implemented in C)
+        aData = updateList(aData, :softmax, :matrix)
         return self
-
+        
     # --- Utilities ---
 
     func checkDimensions oTensor

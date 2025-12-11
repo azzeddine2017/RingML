@@ -2,7 +2,7 @@
 # Description: Multi-class classification example (Improved)
 
 load "../src/ringml.ring"
-decimals(3) 
+decimals(8) 
 
 see "=== RingML Multi-Class Classification Demo ===" + nl
 
