@@ -43,7 +43,7 @@ To restore the performance and stability of the RingML library by fixing critica
     1. Add `emul` string check in parsing section (New OpCode range, e.g., 4500).
     2. Implement Case 4506 (Element-Wise Matrix Mul).
 
-### Module 4: Documentation
+### Module 4: New Features
 - [x] **T04.01**: Softmax Implementation (Case 3306).
   - *File:* `fastpro.c`
   - *Action:* Implement Case 3306 in C.
