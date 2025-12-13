@@ -4,12 +4,12 @@
 
 
 class Dense from Layer
-    oWeights        # Tensor (nInput, nNeurons)
-    oBias           # Tensor (1, nNeurons)
-    oInput          # Cache input for backprop
+    oWeights        
+    oBias           
+    oInput          
     
-    oGradWeights    # Gradient w.r.t Weights
-    oGradBias       # Gradient w.r.t Bias
+    oGradWeights    
+    oGradBias       
 
     nInputSize
     nNeurons
@@ -18,26 +18,39 @@ class Dense from Layer
         nInputSize = nIn
         nNeurons   = nOut
         
-        # Initialize Weights
+        # DEBUG INFO
+        # see ">> Init Dense (" + nInputSize + ", " + nNeurons + ")... " 
+        
+        # 1. Weights Init
         oWeights = new Tensor(nInputSize, nNeurons)
         
-        # IMPROVED INITIALIZATION (Uniform Random between -1 and 1)
-        # This breaks symmetry and allows learning XOR effectively.
+        # Manual Random Init (-1 to 1)
+        # We assume Tensor creates lists of INT 0s. We must overwrite ALL of them.
+        
+        countFilled = 0
         for r = 1 to nInputSize
             for c = 1 to nNeurons
-                # random(2000) gives 0..2000. 
-                # Divide by 1000 -> 0..2. 
-                # Subtract 1 -> -1..1
-                val = (random(2000) / 1000.0) - 1.0
+                val = (random(4000) / 10000.0) - 0.2
                 oWeights.aData[r][c] = val
+                countFilled++
             next
         next
-
-        # Initialize Bias (Zeros is usually fine, but small randoms can also help)
-        oBias = new Tensor(1, nNeurons)
-        oBias.zeros()
         
-        # Initialize Gradients
+        # DEBUG CHECK
+        # if countFilled != (nInputSize * nNeurons)
+        #    see "ERROR: Only filled " + countFilled + " items!" + nl
+        # else
+        #    see "OK (Filled " + countFilled + ")" + nl
+        # ok
+
+        # 2. Bias Init (Small Randoms)
+        oBias = new Tensor(1, nNeurons)
+        for c = 1 to nNeurons
+             val = (random(100) / 10000.0) 
+             oBias.aData[1][c] = val
+        next
+        
+        # 3. Gradients Init
         oGradWeights = new Tensor(nInputSize, nNeurons)
         oGradWeights.zeros()
         oGradBias    = new Tensor(1, nNeurons)
@@ -45,11 +58,8 @@ class Dense from Layer
         
     func forward oInputTensor
         oInput = oInputTensor
-        
-        # Y = X * W
         oOutput = oInput.matmul(oWeights)
         
-        # Add Bias (Broadcasting Row-wise)
         biasList = oBias.aData[1]
         for r = 1 to oOutput.nRows
             row = oOutput.aData[r]
@@ -61,17 +71,12 @@ class Dense from Layer
         return oOutput
 
     func backward oGradOutput
-        # Debugging removed for performance
-        
-        # 1. Gradients for Weights
         oInputCopy = oInput.copy()
         oInputCopy.transpose()
         oGradWeights = oInputCopy.matmul(oGradOutput)
         
-        # 2. Gradients for Bias
         oGradBias = oGradOutput.sum(0) 
         
-        # 3. Gradient for Input
         oWeightsCopy = oWeights.copy()
         oWeightsCopy.transpose()
         dInput = oGradOutput.matmul(oWeightsCopy)

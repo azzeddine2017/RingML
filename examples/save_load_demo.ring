@@ -18,11 +18,12 @@ modelA.add(new Sigmoid)
 optimizer = new SGD(0.5)
 criterion = new MSELoss
 
-for epoch = 1 to 2000
+for epoch = 1 to 20000
     preds = modelA.forward(inputs)
     grad  = criterion.backward(preds, targets)
     modelA.backward(grad)
     for l in modelA.getLayers() optimizer.update(l) next
+    if epoch % 1000 = 0 see "." ok
 next
 
 see "Model A Predictions (Trained):" + nl

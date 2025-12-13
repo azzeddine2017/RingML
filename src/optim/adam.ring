@@ -1,5 +1,5 @@
 # File: src/optim/adam.ring
-# Description: Adam Optimizer (Adaptive Moment Estimation)
+# Description: Adam Optimizer (Manual Implementation for Stability)
 # Author: Code Gear-1
 
 class Adam
@@ -8,103 +8,99 @@ class Adam
     nBeta2 = 0.999
     nEpsilon = 0.00000001
     
-    # Time step
-    t = 0
-
     func init nLearningRate
         nLR = nLearningRate
 
     func update oLayer
-        # Increment time step once per update cycle
-        # Note: Ideally t should be global per epoch/batch, 
-        # but incrementing per layer call is slightly wrong logic if we don't sync.
-        # However, for simplicity in this architecture, we'll manage t internally or passed.
-        # Let's handle 't' inside the parameter update logic.
-        
-        # Check if layer has trainable parameters
+        # Check trainability
+        if hasAttribute(oLayer, "bTrainable") 
+            if !oLayer.bTrainable return ok
+        ok
+
+        # Check weights
         if !hasAttribute(oLayer, "oWeights") return ok
 
-        # --- Initialize Adam State for this Layer if not exists ---
+        # --- Initialize State ---
         if !hasAttribute(oLayer, "adam_mw")
-            # We attach state variables dynamically to the layer object
-            
-            # First Moment (m) and Second Moment (v) for Weights
+            # State for Weights
             addAttribute(oLayer, "adam_mw")
             addAttribute(oLayer, "adam_vw")
             oLayer.adam_mw = oLayer.oWeights.copy().zeros()
             oLayer.adam_vw = oLayer.oWeights.copy().zeros()
             
-            # First Moment (m) and Second Moment (v) for Bias
+            # State for Bias
             addAttribute(oLayer, "adam_mb")
             addAttribute(oLayer, "adam_vb")
             oLayer.adam_mb = oLayer.oBias.copy().zeros()
             oLayer.adam_vb = oLayer.oBias.copy().zeros()
             
-            # Local timestep counter for this layer
             addAttribute(oLayer, "adam_t")
             oLayer.adam_t = 0
         ok
 
-        # Increment time for this layer
+        # Increment Time Step
         oLayer.adam_t++
-        local_t = oLayer.adam_t
+        nT = oLayer.adam_t
 
-        # Update Weights
-        updateParameter(oLayer.oWeights, oLayer.oGradWeights, oLayer.adam_mw, oLayer.adam_vw, local_t)
+        # Update Weights (Manual Loop)
+        update_param_manual(
+            oLayer.oWeights, 
+            oLayer.oGradWeights, 
+            oLayer.adam_mw, 
+            oLayer.adam_vw, 
+            nT
+        )
 
-        # Update Bias
-        updateParameter(oLayer.oBias, oLayer.oGradBias, oLayer.adam_mb, oLayer.adam_vb, local_t)
+        # Update Bias (Manual Loop)
+        update_param_manual(
+            oLayer.oBias, 
+            oLayer.oGradBias, 
+            oLayer.adam_mb, 
+            oLayer.adam_vb, 
+            nT
+        )
 
-    func updateParameter oParam, oGrad, oM, oV, nT
-        # 1. Update biased first moment estimate
-        # m = beta1 * m + (1 - beta1) * g
-        oM.scalar_mul(nBeta1)
-        
-        oGradPart = oGrad.copy()
-        oGradPart.scalar_mul(1.0 - nBeta1)
-        oM.add(oGradPart)
-
-        # 2. Update biased second raw moment estimate
-        # v = beta2 * v + (1 - beta2) * g^2
-        oV.scalar_mul(nBeta2)
-        
-        oGradSq = oGrad.copy()
-        oGradSq.square() # g^2
-        oGradSq.scalar_mul(1.0 - nBeta2)
-        oV.add(oGradSq)
-
-        # 3. Compute bias-corrected first moment estimate
-        # m_hat = m / (1 - beta1^t)
+    func update_param_manual oParam, oGrad, oM, oV, nT
+        # Calculate corrections once
         correction1 = 1.0 - pow(nBeta1, nT)
-        oMHat = oM.copy()
-        oMHat.scalar_mul(1.0 / correction1)
-
-        # 4. Compute bias-corrected second raw moment estimate
-        # v_hat = v / (1 - beta2^t)
         correction2 = 1.0 - pow(nBeta2, nT)
-        oVHat = oV.copy()
-        oVHat.scalar_mul(1.0 / correction2)
-
-        # 5. Update parameters
-        # p = p - lr * m_hat / (sqrt(v_hat) + epsilon)
         
-        # Prepare Denominator: sqrt(v_hat) + epsilon
-        oDenom = oVHat.sqrt()
-        oDenom.add_scalar(nEpsilon)
+        nRows = oParam.nRows
+        nCols = oParam.nCols
         
-        # Calculate Step: m_hat / denom
-        oStep = oMHat.copy()
-        oStep.div(oDenom)
+        # Optimization: Direct access to lists
+        aW = oParam.aData
+        aG = oGrad.aData
+        aM = oM.aData
+        aV = oV.aData
         
-        # Apply Learning Rate
-        oStep.scalar_mul(nLR)
-        
-        # Update original parameter
-        oParam.sub(oStep)
-
-    func hasAttribute oObj, cName
-        aAttrs = attributes(oObj)
-        for a in aAttrs
-            if lower(a) = lower(cName) return true ok
+        for r = 1 to nRows
+            for c = 1 to nCols
+                g = aG[r][c]
+                
+                # 1. Update biased first moment estimate
+                # m = beta1 * m + (1 - beta1) * g
+                aM[r][c] = (nBeta1 * aM[r][c]) + ((1.0 - nBeta1) * g)
+                
+                # 2. Update biased second raw moment estimate
+                # v = beta2 * v + (1 - beta2) * g^2
+                aV[r][c] = (nBeta2 * aV[r][c]) + ((1.0 - nBeta2) * (g * g))
+                
+                # 3. Bias Correction
+                m_hat = aM[r][c] / correction1
+                v_hat = aV[r][c] / correction2
+                
+                # 4. Update Parameter
+                # W = W - (lr * m_hat) / (sqrt(v_hat) + epsilon)
+                
+                # Safety against sqrt of negative (rare float error)
+                if v_hat < 0 v_hat = 0 ok
+                
+                nDenom = sqrt(v_hat) + nEpsilon
+                nStep = (nLR * m_hat) / nDenom
+                
+                aW[r][c] -= nStep
+            next
         next
-        return false
+
+    

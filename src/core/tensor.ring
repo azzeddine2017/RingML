@@ -4,6 +4,9 @@
 
 load "fastpro.ring"
 
+func Randomize(nSeed)
+    return Random(nSeed)
+
 class Tensor
     aData   = []    
     nRows   = 0     
@@ -45,17 +48,27 @@ class Tensor
         aData = updateList(aData, :add, :matrix, oTensor.aData)
         return self
 
+    func sub oTensor
+        checkDimensions(oTensor)
+        # Manual Sub Loop for debugging
+        for r = 1 to nRows
+            for c = 1 to nCols
+                aData[r][c] -= oTensor.aData[r][c]
+            next
+        next
+        return self
+        
     # New: Add Scalar (For Epsilon in Adam)
     func add_scalar nVal
         # FastPro Case 205: Add to Items
         updateList(aData, :add, :items, nVal)
         return self
 
-    func sub oTensor
+    /*func sub oTensor
         checkDimensions(oTensor)
-        aData = updateList(aData, :sub, :matrix, oTensor.aData)
+        updateList(aData, :sub, :matrix, oTensor.aData)
         return self
-
+*/
     func mul oTensor
         checkDimensions(oTensor)
         # Using manual loop until :emul is fully deployed
@@ -146,13 +159,64 @@ class Tensor
     func relu_prime
         aData = updateList(aData, :reluprime, :matrix)
         return self
-        
-    func tanh
-        aData = updateList(aData, :tanh, :matrix)
-        return self
 
     func softmax
         aData = updateList(aData, :softmax, :matrix)
+        return self
+
+    # --- Tanh Implementation (Manual Loops) ---
+
+    /*func tanh
+        # Tanh(x) function
+        for r = 1 to nRows
+            for c = 1 to nCols
+                aData[r][c] = tanh(aData[r][c])
+            next
+        next
+        return self
+    */
+
+    func tanh
+        aData = updateList(aData, :tanh, :matrix)
+        return self    
+
+    func tanh_prime
+        # Derivative of Tanh is: 1 - Tanh(x)^2
+        # We assume 'self' is already the output of Tanh (y)
+        # So we calculate: 1 - y^2
+        for r = 1 to nRows
+            for c = 1 to nCols
+                y = aData[r][c]
+                aData[r][c] = 1.0 - (y * y)
+            next
+        next
+        return self
+
+    # --- Utilities for Dropout ---
+
+    func apply_dropout nRate
+        # nRate: Probability of dropping a neuron (e.g. 0.2)
+        # We need to scale the remaining neurons by (1 / (1 - nRate))
+        # to maintain the expected sum.
+        
+        nScale = 1.0 / (1.0 - nRate)
+        nKeepProb = 1.0 - nRate
+        
+        # We assume Random is seeded globally or sufficiently random
+        for r = 1 to nRows
+            for c = 1 to nCols
+                # Random 0..1
+                nRand = Randomize(10000) / 10000.0
+                
+                if nRand < nRate
+                    # Drop (Set to 0)
+                    aData[r][c] = 0.0
+                else
+                    # Keep and Scale
+                    aData[r][c] = 1.0 * nScale
+                ok
+            next
+        next
         return self
 
     # --- Utilities ---

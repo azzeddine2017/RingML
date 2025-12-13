@@ -44,3 +44,20 @@ class ReLU from Activation
         
         oGradOutput.mul(oDerivative)
         return oGradOutput
+
+class Tanh from Activation
+    oOutput
+
+    func forward oInputTensor
+        # Cache output for backward pass
+        oOutput = oInputTensor.copy()
+        oOutput.tanh()
+        return oOutput
+
+    func backward oGradOutput
+        # Gradient = GradOutput * (1 - Output^2)
+        oDerivative = oOutput.copy()
+        oDerivative.tanh_prime()
+        
+        oGradOutput.mul(oDerivative)
+        return oGradOutput

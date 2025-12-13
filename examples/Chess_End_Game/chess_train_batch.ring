@@ -4,7 +4,8 @@
 load "../../src/ringml.ring"
 load "chess_utils.ring"
 load "chess_dataset.ring" # Load our custom dataset
-
+load "csvlib.ring"
+load "stdlib.ring"
 decimals(3)
 
 see "=== RingML Chess Training (Mini-Batch) ===" + nl
@@ -13,7 +14,7 @@ see "=== RingML Chess Training (Mini-Batch) ===" + nl
 cFile = "data/chess.csv"
 
 see "Reading CSV..." + nl
-aRData = readCSV(cFile)
+aRData = CSV2List( read(cFile) )
 
 
 
@@ -41,6 +42,8 @@ oModel.add(new Dense(64, 32))
 oModel.add(new Sigmoid)
 oModel.add(new Dense(32, nClasses)) 
 oModel.add(new Softmax)
+
+oModel.summary()
 
 # 4. Train
 oCriterion = new CrossEntropyLoss

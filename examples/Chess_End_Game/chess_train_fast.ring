@@ -1,9 +1,11 @@
 # File: examples/chess_train_fast.ring
 # Description: Lightweight Training for slower machines
 
+load "stdlib.ring"
 load "../../src/ringml.ring"
 load "chess_utils.ring"
 load "chess_dataset.ring"
+load "csvlib.ring"
 
 # Set display precision to 5 decimal places
 decimals(8)
@@ -14,7 +16,7 @@ see "=== RingML Chess Training (Fast Mode) ===" + nl
 cFile = "data/chess.csv"
 
 see "Reading CSV..." + nl
-aRawData = readCSV(cFile)
+aRawData = CSV2List( read(cFile) )
 if len(aRawData) > 0 del(aRawData, 1) ok 
 
 nRow = len(aRawData)
@@ -43,10 +45,12 @@ model.add(new Sigmoid)
 model.add(new Dense(16, nClasses)) 
 model.add(new Softmax)
 
+model.summary()
+
 # 4. Train
 criterion = new CrossEntropyLoss
 optimizer = new SGD(0.2) # Slightly higher LR for larger batches
-nEpochs   = 50 # Start with 50 to test speed
+nEpochs   = 1 # Start with 50 to test speed
 
 see "Starting Training..." + nl
 tTotal = clock()

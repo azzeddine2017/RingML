@@ -4,6 +4,7 @@
 load "../../src/ringml.ring"
 load "chess_utils.ring"
 
+
 see "==========================================" + nl
 see "      Chess End-Game Predictor (AI)       " + nl
 see "==========================================" + nl

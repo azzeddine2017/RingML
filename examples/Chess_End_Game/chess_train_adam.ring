@@ -4,7 +4,8 @@
 load "../../src/ringml.ring"
 load "chess_utils.ring"
 load "chess_dataset.ring"
-
+load "csvlib.ring"
+load "stdlib.ring"
 
 decimals(5)
 see "=== RingML Chess Training (Adam) ===" + nl
@@ -13,7 +14,7 @@ see "=== RingML Chess Training (Adam) ===" + nl
 cFile = "data/chess.csv"
 
 see "Reading CSV..." + nl
-aRawData = readCSV(cFile)
+aRawData = CSV2List( read(cFile) )
 if len(aRawData) > 0 del(aRawData, 1) ok 
 
 # 2. Setup Dataset 
@@ -32,13 +33,16 @@ model.add(new Sigmoid)
 model.add(new Dense(16, nClasses)) 
 model.add(new Softmax)
 
-# 4. Train with Adam
+# 4. Print Summary
+model.summary()
+
+# 5. Train with Adam
 criterion = new CrossEntropyLoss
 
 # Note: Adam usually needs lower LR than SGD. 0.01 is a good start.
 optimizer = new Adam(0.01) 
 
-nEpochs   = 20
+nEpochs   = 1
 
 see "Starting Training..." + nl
 tTotal = clock()
@@ -62,7 +66,7 @@ for epoch = 1 to nEpochs
 
         if b % 5 = 0 see "."  ok
 
-        if b % 50 = 0 see "." callgc() ok
+        if b % 50 = 0 callgc() ok
     next
     see nl
     avgLoss = epochLoss / loader.nBatches
@@ -70,6 +74,7 @@ for epoch = 1 to nEpochs
 next
 
 see "Total Time: " + ((clock()-tTotal)/clockspersecond()) + "s" + nl
+
 
 model.saveWeights("model/chess_model_adam.rdata")
 see "Model Saved." + nl

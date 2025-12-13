@@ -1,12 +1,30 @@
 # File: src/layers/layer.ring
-# Description: Base abstract class for all neural network layers
+# Description: Base abstract class (Updated with bTrainable)
 # Author: Code Gear-1
 
 class Layer
-    # Every layer must implement forward pass
-    func forward oInputTensor
-        raise("Error: forward() method must be implemented by the child class")
+    # Mode Flag: True = Training, False = Inference/Testing
+    bTraining = true 
+    
+    # Freeze Flag: If false, weights won't update during training
+    bTrainable = true
+
+    func train
+        bTraining = true
         
-    # Every layer must implement backward pass
+    func evaluate
+        bTraining = false
+        
+    # New: Freeze layer weights
+    func freeze
+        bTrainable = false
+        
+    # New: Unfreeze layer weights
+    func unfreeze
+        bTrainable = true
+
+    func forward oInputTensor
+        raise("Error: forward() not implemented")
+        
     func backward oGradientTensor
-        raise("Error: backward() method must be implemented by the child class")
+        raise("Error: backward() not implemented")

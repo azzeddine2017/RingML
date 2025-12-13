@@ -9,6 +9,10 @@ class SGD
         nLearningRate = nLR
 
     func update oLayer
+        # --- FIX: Check if layer is trainable ---
+        if hasAttribute(oLayer, "bTrainable") 
+            if !oLayer.bTrainable return ok
+        ok
         # Check if layer has weights/bias using proper reflection
         if variableExists(oLayer, "oWeights") and variableExists(oLayer, "oGradWeights")
             
@@ -39,3 +43,5 @@ class SGD
             ok
         next
         return false
+
+    

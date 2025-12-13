@@ -1,8 +1,6 @@
 # File: examples/chess_utils.ring
 # Description: Helper functions for Chess Data processing
 
-load "stdlib.ring"
-load "csvlib.ring"
 
 # Map string labels to Class Indices (0-17)
 aClassMap = [
@@ -38,8 +36,4 @@ func getLabelName nIndex
     if nIndex < 1 or nIndex > len(aClassMap) return "Unknown" ok
     return aClassMap[nIndex]
 
-func readCSV cFile
-    if ! fexists(cFile)
-        raise("File " + cFile + " doesn't exist!")
-    ok
-    return CSV2List( read(cFile) )
+

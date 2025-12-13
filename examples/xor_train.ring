@@ -5,7 +5,7 @@
 # Load RingML Library (Adjust path as needed)
 load "../src/ringml.ring"
 
-decimals(4)
+decimals(10)
 
 see "=== RingML XOR Training Example ===" + nl
 
@@ -46,7 +46,7 @@ criterion = new MSELoss
 optimizer = new SGD(0.5) 
 
 # 4. Training Loop
-nEpochs = 10000
+nEpochs = 5000
 
 see "Training started for " + nEpochs + " epochs..." + nl
 
