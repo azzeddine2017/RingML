@@ -8,7 +8,7 @@ The goal is to provide a PyTorch-like object-oriented API for Ring developers, a
 
 ## 🛠️ Tech Stack & Architecture
 
-- **Core Language:** Ring Programming Language (v1.19+)
+- **Core Language:** Ring Programming Language (v1.24+)
 - **Acceleration:** FastPro Extension (C-based DLL/SO) for heavy lifting.
 - **Architecture:** Modular OOP (Tensor, Layers, Model, Optim, Data).
 - **Math Engine:** Hybrid Mode.
@@ -91,7 +91,7 @@ aRawData = [ [0,0,0], [0,1,1], [1,0,1], [1,1,0] ] # Example XOR data
 
 # 2. Split (80% Train, 20% Test) with Shuffle
 splitter = new DataSplitter
-sets = splitter.split(aRawData, 0.2, true) 
+sets = splitter.splitData(aRawData, 0.2, true) 
 trainData = sets[1]
 testData  = sets[2]
 
@@ -175,4 +175,4 @@ see "Model Saved." + nl
     - MNIST (Computer Vision / Digit Recognition).
 
 ## 📝 License
-Open Source. Built by Code Gear-1.
+Open Source. 
