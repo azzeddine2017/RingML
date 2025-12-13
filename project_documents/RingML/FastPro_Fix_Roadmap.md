@@ -1,7 +1,7 @@
 # FastPro Remediation Roadmap
 
 **Date:** December 11, 2025
-**Author:** Code Gear-1
+**Author:** Azzeddine Remmal
 **Status:** Completed
 
 ## 1. Vision

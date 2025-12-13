@@ -1,6 +1,6 @@
 # File: src/loss/mse.ring
 # Description: Mean Squared Error Loss Function
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 class MSELoss

@@ -1,6 +1,6 @@
 # File: src/loss/crossentropy.ring
 # Description: Cross Entropy Loss
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 class CrossEntropyLoss

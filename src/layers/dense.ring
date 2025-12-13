@@ -1,6 +1,6 @@
 # File: src/layers/dense.ring
 # Description: Fully Connected (Dense) Layer with Forward & Backward
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 class Dense from Layer

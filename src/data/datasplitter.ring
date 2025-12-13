@@ -1,6 +1,6 @@
 # File: src/data/datasplitter.ring
 # Description: Utility class for Shuffling and Splitting Data
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 class DataSplitter
 

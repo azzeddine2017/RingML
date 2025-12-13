@@ -57,7 +57,7 @@ model.summary()
 # 4. Train
 criterion = new CrossEntropyLoss
 optimizer = new Adam(0.001) # Standard LR for Adam
-nEpochs   = 1 # MNIST learns fast
+nEpochs   = 50 # MNIST learns fast
 
 see "Starting Training..." + nl
 tTotal = clock()

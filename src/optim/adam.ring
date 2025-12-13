@@ -1,6 +1,6 @@
 # File: src/optim/adam.ring
 # Description: Adam Optimizer (Manual Implementation for Stability)
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 class Adam
     nLR = 0.001

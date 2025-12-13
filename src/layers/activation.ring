@@ -1,6 +1,6 @@
 # File: src/layers/activation.ring
 # Description: Activation Layers (ReLU, Sigmoid) with Backprop
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 

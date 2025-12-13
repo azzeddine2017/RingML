@@ -59,7 +59,7 @@ model.summary()
 # 5. Training Setup
 criterion = new CrossEntropyLoss
 optimizer = new Adam(0.01) 
-nEpochs   = 1 # Increased epochs for better results
+nEpochs   = 50 # Increased epochs for better results
 
 see "Starting Training..." + nl
 tTotal = clock()

@@ -1,6 +1,6 @@
 # File: src/core/tensor.ring
 # Description: Core Tensor class - Updated for Adam Optimizer
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 load "fastpro.ring"
 
@@ -68,7 +68,7 @@ class Tensor
         checkDimensions(oTensor)
         updateList(aData, :sub, :matrix, oTensor.aData)
         return self
-*/
+    */
     func mul oTensor
         checkDimensions(oTensor)
         # Using manual loop until :emul is fully deployed
@@ -164,18 +164,7 @@ class Tensor
         aData = updateList(aData, :softmax, :matrix)
         return self
 
-    # --- Tanh Implementation (Manual Loops) ---
-
-    /*func tanh
-        # Tanh(x) function
-        for r = 1 to nRows
-            for c = 1 to nCols
-                aData[r][c] = tanh(aData[r][c])
-            next
-        next
-        return self
-    */
-
+    # --- Tanh ---
     func tanh
         aData = updateList(aData, :tanh, :matrix)
         return self    
@@ -241,7 +230,17 @@ class Tensor
     func print
         see "Tensor Shape: (" + nRows + ", " + nCols + ")" + nl
         if nRows <= 10 and nCols <= 10
-            see aData
+            for h = 1 to nRows
+                See "| "
+                for v = 1 to nCols
+                    Num = aData[h][v]
+                    if (Num >= 0) See " " ok
+                    See Num  
+                    if v != nCols   See "," ok
+                next
+                See " |" + nl
+            next
+            See nl
         else
             see "Data is too large to display." + nl
         ok

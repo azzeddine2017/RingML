@@ -48,7 +48,7 @@ oModel.summary()
 # 4. Train
 oCriterion = new CrossEntropyLoss
 oOptimizer = new SGD(0.1) 
-nEpochs   = 2 
+nEpochs   = 50 
 
 see "Starting Training..." + nl
 tTotal = clock()

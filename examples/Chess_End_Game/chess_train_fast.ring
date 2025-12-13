@@ -50,7 +50,7 @@ model.summary()
 # 4. Train
 criterion = new CrossEntropyLoss
 optimizer = new SGD(0.2) # Slightly higher LR for larger batches
-nEpochs   = 1 # Start with 50 to test speed
+nEpochs   = 50 # Start with 50 to test speed
 
 see "Starting Training..." + nl
 tTotal = clock()

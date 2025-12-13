@@ -2,7 +2,7 @@
 
 **Version:** 1.5 (Stable - Hybrid Engine)
 **Status:** Active Development
-**Architect:** Code Gear-1
+**Architect:** Azzeddine Remmal
 
 ---
 

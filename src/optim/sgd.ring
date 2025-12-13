@@ -1,6 +1,6 @@
 # File: src/optim/sgd.ring
 # Description: Stochastic Gradient Descent Optimizer (Fixed)
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 class SGD
     nLearningRate = 0.01

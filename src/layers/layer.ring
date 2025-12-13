@@ -1,6 +1,6 @@
 # File: src/layers/layer.ring
 # Description: Base abstract class (Updated with bTrainable)
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 class Layer
     # Mode Flag: True = Training, False = Inference/Testing

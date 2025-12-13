@@ -3,7 +3,7 @@
 **Date:** December 10, 2025
 **Project:** RingML (Ring Machine Learning Library)
 **Subject:** Development Lifecycle, Challenges, and FastPro Extension Remediation Plan
-**Author:** Code Gear-1
+**Author:** Azzeddine Remmal
 
 ---
 

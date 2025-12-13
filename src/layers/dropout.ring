@@ -1,6 +1,6 @@
 # File: src/layers/dropout.ring
 # Description: Dropout Layer to prevent overfitting
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 

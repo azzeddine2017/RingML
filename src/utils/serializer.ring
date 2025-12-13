@@ -1,6 +1,6 @@
 # File: src/utils/serializer.ring
 # Description: High-precision data serialization utility
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 func SerializeData aData
     decimals(18)

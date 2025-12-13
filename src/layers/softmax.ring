@@ -1,6 +1,6 @@
 # File: src/layers/softmax.ring
 # Description: Softmax Layer for Classification
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 

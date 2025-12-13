@@ -1,6 +1,6 @@
 # File: src/model/sequential.ring
 # Description: Sequential Model Container with Save/Load support
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 class Sequential
     aLayers = []

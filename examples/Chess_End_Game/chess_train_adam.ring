@@ -42,7 +42,7 @@ criterion = new CrossEntropyLoss
 # Note: Adam usually needs lower LR than SGD. 0.01 is a good start.
 optimizer = new Adam(0.01) 
 
-nEpochs   = 1
+nEpochs   = 50
 
 see "Starting Training..." + nl
 tTotal = clock()

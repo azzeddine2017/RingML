@@ -1,6 +1,6 @@
 # File: src/data/dataset.ring
 # Description: Dataset and DataLoader for batch processing
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 
 class Dataset

@@ -1,6 +1,6 @@
 # File: examples/xor_train.ring
 # Description: Training a Neural Network to solve XOR problem
-# Author: Code Gear-1
+# Author: Azzeddine Remmal
 
 # Load RingML Library (Adjust path as needed)
 load "../src/ringml.ring"
