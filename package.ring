@@ -5,11 +5,11 @@ aPackageInfo = [
 	:developer = "Azzeddine Remmal",
 	:email = "azzeddine.remmal@gmail.com",
 	:license = "MIT License",
-	:version = "1.0.6",
+	:version = "1.0.7",
 	:ringversion = "1.24",
 	:versions = 	[
 		[
-			:version = "1.0.6",
+			:version = "1.0.7",
 			:branch = "master"
 		]
 	],
@@ -32,7 +32,8 @@ aPackageInfo = [
 	],
 	:files = 	[
 		"main.ring",
-		"README.md"
+		"README.md",
+		"setup.ring"
 	],
 	:ringfolderfiles = 	[
 		"bin/load/ringml.ring",
@@ -130,7 +131,7 @@ aPackageInfo = [
 	:macosrun = "",
 	:ubunturun = "",
 	:fedorarun = "",
-	:setup = "",
+	:setup = "ring setup.ring",
 	:windowssetup = "",
 	:linuxsetup = "",
 	:macossetup = "",

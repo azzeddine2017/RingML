@@ -2,9 +2,9 @@
 # Description: Main entry point
 # Author: Azzeddine Remmal
 # Date: 2025-12-15
-# Version: 1.0.6
+# Version: 1.0.7
 # License: MIT License
-# Ring Version: 1.24
+
 
 load "consolecolors.ring"
 load "fastpro.ring"
@@ -25,4 +25,4 @@ load "optim/sgd.ring"
 load "optim/adam.ring"         
 
 func RingML_Info
-    see "RingML Library v1.0.6 - Adam Optimizer Added" + nl
+    see "RingML Library v1.0.7 - Adam Optimizer Added" + nl
