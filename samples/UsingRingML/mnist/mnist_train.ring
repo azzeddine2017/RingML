@@ -33,7 +33,7 @@ ok
 
 # --- OPTIMIZATION : Subsampling (Take only 5000 random samples) ---
 see "Optimizing Dataset Size..." + nl
-nLiteSize = 2500
+nLiteSize = 5000
 if len(aRawsData) > nLiteSize
     aLiteData = []
     # Shuffle first to get random variety
@@ -44,6 +44,11 @@ if len(aRawsData) > nLiteSize
     for i = 1 to nLiteSize
         aLiteData + aRawsData[i]
     next
+
+    cFileName = "data/mnist_test_lite.csv"  
+    cString = List2CSV(aLiteData)
+    write(cFileName, cString)
+
     aRawsData = aLiteData
     see "Reduced dataset to " + nLiteSize + " samples for speed." + nl
 ok

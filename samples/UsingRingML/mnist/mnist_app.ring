@@ -12,12 +12,12 @@ decimals(3)
 see "=== RingML MNIST Digit Predictor ===" + nl
 
 # 1. Load Data (For testing)
-cFile = "data/mnist_test.csv"
+cFile = "data/mnist_test_lite.csv"
 if !fexists(cFile) raise("File missing") ok
 
 see "Loading Data..." + nl
 aRawData = CSV2List( read(cFile) )
-if lower(aRawData[1][1]) = "label" del(aRawData, 1) ok
+# if lower(aRawData[1][1]) = "label" del(aRawData, 1) ok
 
 nTotal = len(aRawData)
 see "Loaded " + nTotal + " test images." + nl
