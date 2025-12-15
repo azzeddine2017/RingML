@@ -15,7 +15,7 @@ These scripts demonstrate core functionalities of the library.
 
 ### 2. Advanced Applications
 
-#### ♟️ Chess End-Game (`examples/Chess_End_Game/`)
+#### ♟️ Chess End-Game (`samples/UsingRingML/Chess_End_Game/`)
 A real-world application that predicts the result of a Chess End-Game (King + Rook vs. King).
 - **Dataset**: Uses the KRK dataset (`chess.csv`).
 - **Scripts**:
@@ -26,7 +26,7 @@ A real-world application that predicts the result of a Chess End-Game (King + Ro
   - `chess_dataset.ring`: Custom `Dataset` implementation for parsing chess positions.
   - `chess_utils.ring`: Utility functions for the chess example.
 
-#### 🔢 MNIST (`examples/mnist/`)
+#### 🔢 MNIST (`samples/UsingRingML/mnist/`)
 (In Progress) Implementation for handwritten digit recognition using the MNIST dataset.
 
 ## 🚀 How to Run
@@ -34,10 +34,12 @@ To run any example, navigate to the project root directory and execute the scrip
 
 **Example: Running XOR Training**
 ```bash
-ring examples/xor_train.ring
+cd samples/UsingRingML/
+ring xor_train.ring
 ```
 
 **Example: Running Chess Training**
 ```bash
-ring examples/Chess_End_Game/chess_train_fast.ring
+cd samples/UsingRingML/Chess_End_Game/
+ring chess_train_fast.ring
 ```
