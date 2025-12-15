@@ -1,5 +1,4 @@
 # The Main File
-# The Main File
 
 func main
 
@@ -14,7 +13,7 @@ func main
                  |___/               
 "
 	? "RingML - Machine Learning Library for Ring"
-	? "Version   : 1.0.5"
+	? "Version   : 1.0.7"
 	? "Developer : Azzeddine Remmal"
 	? "License   : MIT License"
 	? ""
